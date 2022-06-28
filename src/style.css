@@ -1,0 +1,12 @@
+.search ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: grey !important;
+    opacity: 1 !important; /* Firefox */
+  }
+  
+  .search :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: grey !important;
+  }
+  
+  .search ::-ms-input-placeholder { /* Microsoft Edge */
+    color: grey !important;
+  }
