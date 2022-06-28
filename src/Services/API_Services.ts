@@ -6,7 +6,8 @@ let _apiHandler = axios.create();
 
 const _initializeAxios = () => {
   _apiHandler = axios.create({
-    baseURL: "http://localhost:3200/v1",
+    // baseURL: "http://localhost:3200/v1",
+    baseURL: "https://store.api.bookgmt.com/v1",
     headers: {
       Authorization: `${currentUser()?.token}`?.trim(),
       Accept: "application/json",

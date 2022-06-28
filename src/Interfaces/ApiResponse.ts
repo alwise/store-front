@@ -10,5 +10,4 @@ export interface ApiResponseInt {
     data?:any;
     message?:string | undefined;
     error?:ErrorInt
-
 }
