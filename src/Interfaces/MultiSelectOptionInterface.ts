@@ -4,4 +4,5 @@ export interface MultiSelectOptionInt{
     value?:any | undefined;
     label?:string | number;
     disabled?: boolean;
+    balance?:number | string | undefined
 }

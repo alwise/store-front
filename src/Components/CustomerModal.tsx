@@ -13,16 +13,13 @@ import {
     FormErrorMessage,
     Collapse,
     useDisclosure,
-    Radio,
-    RadioGroup,
-    Stack,
     Flex,
     Spacer,
   } from "@chakra-ui/react";
   import { useFormik } from "formik";
   import * as Yup from "yup";
   import {useState} from 'react'
-import { AuthServices, CustomerService } from "../Services";
+import { CustomerService } from "../Services";
 
 import { CustomAlert } from './AlertDialog';
 import { CustomerInt } from "../Interfaces";

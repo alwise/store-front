@@ -75,11 +75,11 @@ export const AdminDashboardUsers = () => {
                                 <Td >{user?.updatedAt}</Td>
                                 <Td> 
                                     <ButtonGroup>
-                                        <Button onClick={()=>{
+                                        <Button size={"xs"} onClick={()=>{
                                             setStaff((_prev:any)=>(user));
                                             editAlertProps.onOpen()
                                         }} leftIcon={<FaEdit/>}  >Edit</Button>
-                                        <Button onClick={()=>{
+                                        <Button size={"xs"} onClick={()=>{
                                             setStaff((_prev:any)=>(user));
                                             deleteAlertProps.onToggle();
                                         }} leftIcon={<FaRecycle/>}   colorScheme="red" >Delete</Button>

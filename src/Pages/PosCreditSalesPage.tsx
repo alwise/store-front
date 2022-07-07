@@ -1,14 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import '../style.css'
 import { useEffect, useState } from 'react'
-import { VStack, Text, TableContainer, Tbody, Tr, Td, Table, Input, Thead, Th, Tfoot, Button, Box, useDisclosure, HStack, Heading, Container, Flex, Divider, Spacer, IconButton, Collapse } from '@chakra-ui/react';
+import { VStack, Text, TableContainer, Tbody, Tr, Td, Table, Input, Thead, Th, Tfoot, Button, Box, useDisclosure, HStack, Flex, Spacer, IconButton, Collapse } from '@chakra-ui/react';
 import { MultiSelect } from 'react-multi-select-component';
 import { CustomerInt, MultiSelectOptionInt, ProductInt, SalesInt } from '../Interfaces';
 import { CustomAlert, CustomAlertDialog } from '../Components';
 import { currentUser, CustomerService,PosServices,ProductServices } from '../Services';
 import moment from 'moment';
 import { CustomerModalForCreateAndEdit } from '../Components/CustomerModal';
-import { FaPrint } from 'react-icons/fa';
+import { FaMoneyBill, FaPrint } from 'react-icons/fa';
+import { Payment } from '.';
 
 interface StatsInt{
   totalAmount:number;
@@ -19,6 +20,7 @@ export const CreditSalesPage = () => {
   const {onOpen,onClose,onToggle,isOpen} = useDisclosure();
   const submitDisclosure = useDisclosure();
   const createCustomerDisclosure = useDisclosure();
+  const paymentAlertProps = useDisclosure();
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [isErrorAlert, setIsErrorAlert] = useState<boolean>(false);
   const [message,setMessage] = useState<string | undefined>();
@@ -291,8 +293,7 @@ export const CreditSalesPage = () => {
 
  
   useEffect(() => {
-   
-
+  
     formatSelected();
     
     return () => {
@@ -309,10 +310,10 @@ export const CreditSalesPage = () => {
                     </Collapse>
 
                   <HStack minW={700} color={'blackAlpha.800'} mb="5" >
-                          <Box w={400}>
+                          <Box maxW={200} minW={200}>
                           <MultiSelect hasSelectAll={false}  options={customersDataOptions} value={selectedCustomerDataOption} labelledBy={'Customers'} onChange={handleCustomerChange}  closeOnChangedValue={true}   />
                           </Box>
-                        <Box width={"full"} >
+                        <Box maxW={500} minW={500} >
                         <MultiSelect hasSelectAll={false}  options={productsDataOptions} value={selectedProductDataOption} labelledBy={'Products'} onChange={setSelectedProductDataOption}   />
                         </Box>
                       </HStack>
@@ -385,6 +386,8 @@ export const CreditSalesPage = () => {
                             </Table>
 
                           </TableContainer>
+
+                <Payment onOpen={paymentAlertProps.onOpen} onClose={paymentAlertProps.onClose} isOpen={paymentAlertProps.isOpen} data={customersDataOptions} selected={selectedCustomerDataOption} customer={customers?.filter((val)=>val?.id == selectedCustomerDataOption?.at(0)?.key)?.at(0)} customers={customers} callback={fetchCustomers}  />
                                   
                   
                 {createCustomerDisclosure.isOpen && <CustomerModalForCreateAndEdit isOpen={createCustomerDisclosure?.isOpen} onOpen={createCustomerDisclosure?.onOpen} onClose={createCustomerDisclosure?.onClose} onToggle={createCustomerDisclosure?.onToggle} data={undefined} callback={fetchCustomers} />}
@@ -407,6 +410,12 @@ export const CreditSalesPage = () => {
                       <Text fontWeight={"bold"} >{parseInt(`${stats?.salesCount || 0}`)}</Text>
                       <Text>Sales(#)</Text>
                 </VStack>
+                <Button isDisabled={selectedCustomerDataOption?.length === 0} size={"xs"} colorScheme={"green"}  leftIcon={<FaMoneyBill/>} 
+                                         onClick={()=>{
+                          
+                                            paymentAlertProps.onOpen();
+                                         }}
+                                         >Make pay</Button>
                 </Flex>
 
                 <Table>

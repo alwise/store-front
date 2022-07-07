@@ -6,6 +6,9 @@ const _baseUrl = '/customers';
 const postCustomer = async (data:any) => {
     return await postRequest(_baseUrl,data);
 } 
+const makePayment = async (data:any) => {
+    return await postRequest(_baseUrl.concat('/pay'),data);
+} 
 
 const updateCustomer = async (data:any) => {
     return await patchRequest(_baseUrl,data);
@@ -23,6 +26,7 @@ const getCustomers = async (params:any) => {
 
 export default {
     postCustomer,
+    makePayment,
     updateCustomer,
     deleteCustomer,
     getCustomers

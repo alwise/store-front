@@ -1,7 +1,8 @@
 import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Routes } from './PageRoutes';
+import { Routes,isSelectedRoute } from './PageRoutes';
 
 export {
     ColorModeSwitcher,
-    Routes
+    Routes,
+    isSelectedRoute
 }

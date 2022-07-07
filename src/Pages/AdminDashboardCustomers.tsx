@@ -1,16 +1,18 @@
 import React,{useState,useEffect} from 'react'
 import { Button, ButtonGroup, Container, HStack, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr, useDisclosure, VStack, Wrap, WrapItem } from '@chakra-ui/react';
-import { FaEdit, FaPlus, FaRecycle } from 'react-icons/fa';
+import { FaEdit, FaMoneyBill, FaPlus, FaRecycle } from 'react-icons/fa';
 import { CustomAlertDialog } from '../Components';
 import { AuthServices, CustomerService } from '../Services';
-import { CustomerInt } from '../Interfaces';
+import { CustomerInt, MultiSelectOptionInt } from '../Interfaces';
 import { CustomerModalForCreateAndEdit } from '../Components/CustomerModal';
+import { Payment } from './';
 
 
 export const AdminDashboardCustomers = () => {
     const [data,setData] = useState<Partial<CustomerInt>[]>([]);
-    const [staff,setStaff] = useState<Partial<CustomerInt>>();
-    // const { isOpen, onOpen, onClose,onToggle } = useDisclosure();
+    const [customer,setCustomer] = useState<Partial<CustomerInt>>();
+    const [customersDataOptions,setCustomersDataOptions] = useState<any[]>([]);
+    const paymentAlertProps = useDisclosure();
     const editAlertProps = useDisclosure();
     const deleteAlertProps = useDisclosure();
 
@@ -19,11 +21,26 @@ export const AdminDashboardCustomers = () => {
         if(result?.status === true){
             const _data:Partial<CustomerInt>[] = result?.data || [];
             setData((_prev:Partial<CustomerInt>[])=>(_data));
+            convertCustomersToSelectable(_data);
         }
     }
 
+    const convertCustomersToSelectable = (customersData:any) =>{
+        const copyOriginalCustomers = [...customersData];
+        const tempCustomerOptions:MultiSelectOptionInt[] = [];
+        copyOriginalCustomers?.forEach((_customer,index,arr)=>{
+          tempCustomerOptions.push({
+              key:_customer?.id,
+              label:_customer?.name,
+              value:_customer?.id,
+              disabled:false,
+          });
+        });
+        setCustomersDataOptions((_prev)=>(tempCustomerOptions));
+      }
+
     const handleDelete = async () =>{
-        const result = await AuthServices.deleteUser(staff);
+        const result = await AuthServices.deleteUser(customer);
         deleteAlertProps.onClose();
         if(result?.status === true){
            await fetchCustomers();
@@ -45,7 +62,7 @@ export const AdminDashboardCustomers = () => {
             
             <HStack align={"flex-end"} justifyContent={"flex-end"}  minW="full" >
                 <Button onClick={()=>{
-                    setStaff((_prev:any)=>(undefined));
+                    setCustomer((_prev:any)=>(undefined));
                     editAlertProps.onToggle()
                 }} leftIcon={<FaPlus/>} >Add customer</Button>
             </HStack>
@@ -70,18 +87,25 @@ export const AdminDashboardCustomers = () => {
                                 <Td>{index+1}</Td>
                                 <Td>{user?.name}</Td>
                                 <Td isNumeric >{user?.phoneNumber}</Td>
-                                <Td isNumeric >{user?.balance}</Td>
+                                <Td isNumeric >{parseFloat(`${user?.balance || 0.0}`).toFixed(2)}</Td>
                                 {/* <Td >{user?.updatedAt}</Td> */}
                                 <Td> 
                                     <ButtonGroup>
-                                        <Button onClick={()=>{
-                                            setStaff((_prev:any)=>(user));
+                                         <Button size={"xs"} colorScheme={"green"}  leftIcon={<FaMoneyBill/>} 
+                                         onClick={()=>{
+                                            setCustomer((_prev:any)=>(user));
+                                            paymentAlertProps.onOpen();
+                                         }}
+                                         >Pay</Button>
+                                        <Button size={"xs"} onClick={()=>{
+                                            setCustomer((_prev:any)=>(user));
                                             editAlertProps.onOpen()
                                         }} leftIcon={<FaEdit/>}  >Edit</Button>
-                                        <Button onClick={()=>{
-                                            setStaff((_prev:any)=>(user));
+                                        <Button size={'xs'} onClick={()=>{
+                                            setCustomer((_prev:any)=>(user));
                                             deleteAlertProps.onToggle();
                                         }} leftIcon={<FaRecycle/>}   colorScheme="red" >Delete</Button>
+                                        
                                     </ButtonGroup>
                                  </Td>
                                      </Tr>)
@@ -101,10 +125,15 @@ export const AdminDashboardCustomers = () => {
                         </Tfoot>
                     </Table>
              </TableContainer>
+
+            
+                <Payment onOpen={paymentAlertProps.onOpen} onClose={paymentAlertProps.onClose} isOpen={paymentAlertProps.isOpen} data={customersDataOptions} selected={customersDataOptions.filter((val)=>val?.key === customer?.id)} customer={customer} customers={data} callback={fetchCustomers}  />
+            
+              
         
-             {editAlertProps.isOpen && <CustomerModalForCreateAndEdit isOpen={editAlertProps?.isOpen} onOpen={editAlertProps?.onOpen} onClose={editAlertProps?.onClose} onToggle={editAlertProps?.onToggle} data={staff} callback={fetchCustomers} />}
+             {editAlertProps.isOpen && <CustomerModalForCreateAndEdit isOpen={editAlertProps?.isOpen} onOpen={editAlertProps?.onOpen} onClose={editAlertProps?.onClose} onToggle={editAlertProps?.onToggle} data={customer} callback={fetchCustomers} />}
       
-            <CustomAlertDialog isOpen={deleteAlertProps?.isOpen} onOpen={deleteAlertProps?.onOpen} onClose={deleteAlertProps?.onClose} onToggle={deleteAlertProps?.onToggle} title={"Delete customer"} data={staff} message={`Continue to delete? You can't undo this process.`} callback={handleDelete} />
+            <CustomAlertDialog isOpen={deleteAlertProps?.isOpen} onOpen={deleteAlertProps?.onOpen} onClose={deleteAlertProps?.onClose} onToggle={deleteAlertProps?.onToggle} title={"Delete customer"} data={customer} message={`Continue to delete? You can't undo this process.`} callback={handleDelete} />
 
 
         </VStack>

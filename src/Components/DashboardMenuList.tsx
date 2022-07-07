@@ -1,9 +1,9 @@
 import { VStack, List   } from '@chakra-ui/react'
 import { useState } from 'react'
 import { FaChartPie, FaPersonBooth, FaStore, FaUserCircle } from 'react-icons/fa'
-import { Routes } from '../Utilities';
+import { isSelectedRoute, Routes } from '../Utilities';
 import { AttributeProps, CustomListItem, CustomListItemProps } from './mini';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function DashboardMenuList() {
     const menuItems:CustomListItemProps[] = [
@@ -44,24 +44,15 @@ export default function DashboardMenuList() {
             
         }
     ]
-    const [data,setData] = useState<CustomListItemProps[]>(menuItems || []);
+    // const [data,setData] = useState<CustomListItemProps[]>(menuItems || []);
     const navigate = useNavigate();
+    const loc = useLocation();
+
     const handleClick = (menuItem:AttributeProps) =>{
-       const dataCopy:CustomListItemProps[] = [...data] || [];
-       dataCopy?.forEach((item)=>{
-            if(item.attributes.title === menuItem.title){
-                item.attributes.selected = true;
-            }else{
-                item.attributes.selected = false;
-            }
-        });
-    
-        setData((prev)=>(dataCopy));
         if(menuItem.path){
-            navigate(menuItem.path,{replace:true})
+            navigate(menuItem.path,{replace:true,state:{title:menuItem?.title}})
         }
-       
-       
+    
     }
 
 
@@ -69,8 +60,8 @@ export default function DashboardMenuList() {
     <VStack minH={'100vh'}  width={"full"} >
             <List spacing={3} minW={'full'}>
                 {
-                    data?.map((item,index,arr)=> <CustomListItem key={`dashboard-menu-key-${index}`} attributes={ {
-                        title:item.attributes.title, icon:item?.attributes.icon,  path:item.attributes.path, selected:item.attributes.selected
+                    menuItems?.map((item,index,arr)=> <CustomListItem key={`dashboard-menu-key-${index}`} attributes={ {
+                        title:item.attributes.title, icon:item?.attributes.icon,  path:item.attributes.path, selected:isSelectedRoute([`${item.attributes.path}`],loc.pathname)
                     } } onSelected={handleClick}  />)
                 }
                 

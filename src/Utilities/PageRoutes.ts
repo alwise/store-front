@@ -34,3 +34,16 @@ export const Routes = {
         }
     }
 }
+
+export const isSelectedRoute = (expected:string[],currentRoute:string) =>{
+    if(expected?.length === 0) return false;
+
+    let isPart:boolean[] = [];
+    expected.forEach((val)=>{
+        if(val?.toLowerCase().trim() === currentRoute?.toLowerCase().trim()){
+            isPart.push(true)
+        }
+    })
+
+    return isPart.includes(true);
+}

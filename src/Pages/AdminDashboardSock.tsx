@@ -78,11 +78,11 @@ export const AdminDashboardSock = () => {
                                 <Td >{prod?.updatedAt}</Td>
                                 <Td> 
                                     <ButtonGroup>
-                                        <Button onClick={()=>{
+                                        <Button size={"xs"} onClick={()=>{
                                             setProduct((_prev)=>(prod));
                                             editAlertProps.onOpen()
                                         }} leftIcon={<FaEdit/>}  >Edit</Button>
-                                        <Button onClick={()=>{
+                                        <Button size={"xs"} onClick={()=>{
                                             setProduct((_prev)=>(prod));
                                             deleteAlertProps.onToggle();
                                         }} leftIcon={<FaRecycle/>}   colorScheme="red" >Delete</Button>
