@@ -3,6 +3,7 @@ export  interface ProductInt {
     productName:string | undefined;
     price?:string | number | undefined;
     quantity:string | number | undefined;
+    totalQuantity?:string | number |undefined;
     updatedAt?:string | undefined
 }
 

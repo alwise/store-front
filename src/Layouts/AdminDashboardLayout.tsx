@@ -39,12 +39,12 @@ export const AdminDashboard = () => {
       <VStack
         width={"270px"}
         minH={"100vh"}
-        borderRight="1px"
+        borderRight="0px"
         borderRightColor="RGBA(255, 255, 255, 0.08)"
       >
         <Flex p="4" justifyContent="space-between" minW={"full"}>
           <Heading mt="3" fontSize={"large"}>
-            Logo Here
+            {"ED STORE"}
           </Heading>
           <Button>
             {" "}

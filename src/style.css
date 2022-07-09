@@ -10,3 +10,14 @@
   .search ::-ms-input-placeholder { /* Microsoft Edge */
     color: grey !important;
   }
+
+  .search{
+    color: rgba(0, 0, 0, 0.651);
+  }
+
+  .dropdown-heading-value > span{
+    color: black;
+  }
+  .dropdown-content * {
+     color: black;
+  }

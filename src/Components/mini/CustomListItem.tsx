@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-operators */
-import { Box, Heading, Button } from "@chakra-ui/react";
+import { Text, Button, Flex,useColorModeValue } from "@chakra-ui/react";
 import { FaChevronRight } from "react-icons/fa";
 
 
@@ -17,6 +17,7 @@ export interface AttributeProps {
 }
 
 export default function CustomListItem(props: CustomListItemProps) {
+
   return (
     <Button
         isActive={props.attributes?.selected}
@@ -28,13 +29,13 @@ export default function CustomListItem(props: CustomListItemProps) {
       textAlign={"start"}
       justifyContent="space-between"
     >
-      <Box minW={"fit-content"} display="flex">
+      <Flex minW={"fit-content"} display="flex">
         {props.attributes.icon}
-        <Heading as={"h4"} ms="3" fontSize="small">
+        <Text  ms="3" fontSize="small">
           {props.attributes.title || "Untitled"}
-        </Heading>
-      </Box>
-      <FaChevronRight size={"16"} />
+        </Text>
+      </Flex>
+      <FaChevronRight size={"10"} />
     </Button>
   );
 }

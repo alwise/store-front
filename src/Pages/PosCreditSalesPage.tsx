@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import '../style.css'
 import { useEffect, useState } from 'react'
 import { VStack, Text, TableContainer, Tbody, Tr, Td, Table, Input, Thead, Th, Tfoot, Button, Box, useDisclosure, HStack, Flex, Spacer, IconButton, Collapse } from '@chakra-ui/react';
 import { MultiSelect } from 'react-multi-select-component';
@@ -51,6 +50,7 @@ export const CreditSalesPage = () => {
       
       }
     })
+  
     setSelectedProducts((_prev)=>(productData));
     calculateSubTotal(productData);
   }
@@ -143,10 +143,18 @@ export const CreditSalesPage = () => {
 
   const prepareDataForSubmit = () =>{
     const productsSelectedCopy:ProductInt[] = [...selectedProducts];
+    const newProductQuantityCopy:ProductInt[] = []
+    for (let prod of productsSelectedCopy) {
+      const _prod:any = products?.filter((val)=>(val.id === prod?.id))?.at(0);
+      newProductQuantityCopy.push(
+        {..._prod,quantity:(parseInt(`${_prod?.quantity || '0'}`,10) - parseInt(`${prod?.quantity || '0'}`,10) ) }
+      );
+    }
     const customerId = selectedCustomerDataOption?.at(0)?.value;
     const balanceCopy:number = amountPaid - subTotal;
    const salesData = {
     items:productsSelectedCopy,
+    products:newProductQuantityCopy,
     customerId,
     soldBy:currentUser()?.id,
     subTotal:parseFloat(`${subTotal || 0}`).toFixed(2),

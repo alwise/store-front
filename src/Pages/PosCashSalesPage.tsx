@@ -137,11 +137,18 @@ export const CashSalesPage = () => {
 
   const prepareDataForSubmit = () =>{
     const productsSelectedCopy:ProductInt[] = [...selectedProducts];
-    // const customerId = selectedCustomerDataOption?.at(0)?.value;
+    const newProductQuantityCopy:ProductInt[] = []
+    for (let prod of productsSelectedCopy) {
+      const _prod:any = products?.filter((val)=>(val.id === prod?.id))?.at(0);
+      newProductQuantityCopy.push(
+        {..._prod,quantity:(parseInt(`${_prod?.quantity || '0'}`,10) - parseInt(`${prod?.quantity || '0'}`,10) ) }
+      );
+    }
     const balanceCopy:number = amountPaid - subTotal;
+
    const salesData = {
     items:productsSelectedCopy,
-    // customerId,
+    products:newProductQuantityCopy,
     soldBy:currentUser()?.id,
     subTotal:parseFloat(`${subTotal || 0}`).toFixed(2),
     balance : parseFloat(`${balanceCopy}`).toFixed(2),

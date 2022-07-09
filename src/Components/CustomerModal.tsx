@@ -120,11 +120,11 @@ import { CustomerInt } from "../Interfaces";
                   <Input
                     id="name"
                     name="name"
+                    placeholder="Mary Dash"
                     type="text"
                     variant="filled"
                     onChange={formik.handleChange}
                     value={formik.values.name}
-                  
                   />
               
                   <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
@@ -140,6 +140,7 @@ import { CustomerInt } from "../Interfaces";
                     <Input
                       id="phoneNumber"
                       name="phoneNumber"
+                      placeholder="02XXXXXXXX"
                       type="tel"
                       variant="filled"
                       maxLength={10}
@@ -157,12 +158,14 @@ import { CustomerInt } from "../Interfaces";
                       !!formik.errors.balance && formik.touched.balance
                     }
                   >
-                    <FormLabel htmlFor="phoneNumber">Balance GH&#162;</FormLabel>
+                    <FormLabel htmlFor="balance">Balance GH&#162;</FormLabel>
                     <Input
                       id="balance"
                       name="balance"
+                      placeholder="0.00"
                       type="number"
                       variant="filled"
+                      readOnly={props.data !== undefined}
                       maxLength={10}
                       onChange={formik.handleChange}
                       value={formik.values.balance}
