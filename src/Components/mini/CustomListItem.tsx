@@ -13,6 +13,7 @@ export interface AttributeProps {
   title: string;
   icon?: any;
   path?: string;
+  paths:string[];
   selected?: boolean;
 }
 

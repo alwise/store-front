@@ -4,7 +4,7 @@ import { FaEdit, FaPlus, FaRecycle } from 'react-icons/fa';
 import { CustomAlertDialog, UserModalForCreateAndEdit } from '../Components';
 import { AuthServices } from '../Services';
 import { UserInt } from '../Interfaces';
-
+import moment from 'moment'
 
 
 
@@ -72,7 +72,7 @@ export const AdminDashboardUsers = () => {
                                 <Td>{user?.name}</Td>
                                 <Td isNumeric >{user?.phoneNumber}</Td>
                                 <Td  >{user?.role}</Td>
-                                <Td >{user?.updatedAt}</Td>
+                                <Td >{moment(user?.updatedAt).format("YYYY-MM-DD HH:mm")}</Td>
                                 <Td> 
                                     <ButtonGroup>
                                         <Button size={"xs"} onClick={()=>{

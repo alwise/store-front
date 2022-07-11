@@ -6,6 +6,9 @@ const _baseUrl = '/pos';
 const postSales = async (data:any) => {
     return await postRequest(_baseUrl,data);
 } 
+const printSalesData = async (data:any) => {
+    return await postRequest(_baseUrl.concat('/print'),data);
+} 
 
 const getPosData = async (params:any) => {
     if(params){
@@ -26,6 +29,7 @@ const getPosStats = async (params:any) => {
 export default {
     postSales,
     getPosData,
-    getPosStats
+    getPosStats,
+    printSalesData
 }
 

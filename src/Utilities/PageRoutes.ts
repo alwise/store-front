@@ -20,8 +20,13 @@ export const Routes = {
             },
             customer:{
                 title:'Customers',
-                path:'/dashboard/customers'
+                path:'/dashboard/customers',
             },
+            transactionHistory:{
+                title:'Sales & payment history',
+                path:'/dashboard/customers/history',
+            }
+
         }
     },
     POS:{

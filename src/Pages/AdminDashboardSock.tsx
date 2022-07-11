@@ -1,9 +1,10 @@
-import React,{useState,useEffect} from 'react'
-import { Button, ButtonGroup, Container, HStack, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr, useDisclosure, VStack, Wrap, WrapItem } from '@chakra-ui/react';
+import {useState,useEffect} from 'react'
+import { Button, ButtonGroup, HStack, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr, useDisclosure, VStack } from '@chakra-ui/react';
 import { FaEdit, FaPlus, FaRecycle } from 'react-icons/fa';
 import { CustomAlertDialog, ProductModalForCreateAndEdit } from '../Components';
 import { ProductServices } from '../Services';
 import { ProductInt } from '../Interfaces';
+import moment from 'moment';
 
     // interface ProductInt{
     //         id:any,
@@ -75,7 +76,7 @@ export const AdminDashboardSock = () => {
                                 <Td>{index+1}</Td>
                                 <Td>{prod?.productName}</Td>
                                 <Td isNumeric >{prod?.quantity}</Td>
-                                <Td >{prod?.updatedAt}</Td>
+                                <Td >{moment(prod?.updatedAt).format("YYYY-MM-DD HH:mm")}</Td>
                                 <Td> 
                                     <ButtonGroup>
                                         <Button size={"xs"} onClick={()=>{

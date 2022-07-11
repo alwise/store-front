@@ -5,8 +5,10 @@ export interface SalesInt{
 
     id?:string;
     reference?:string;
+    customerId?:string;
     subTotal?:number
     balance?:number
+    amountPaid?:number
     soldBy?:string;
     items?:ProductInt[];
     isCredit?:boolean;

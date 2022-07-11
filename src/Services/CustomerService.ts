@@ -21,6 +21,9 @@ const getCustomers = async (params:any) => {
         return await getRequest(_baseUrl,params);
     }
     return await getRequest(_baseUrl);
+}
+const getHistory = async (params:any) =>{
+    return await getRequest(_baseUrl.concat('/history'),params);
 } 
 
 
@@ -29,5 +32,6 @@ export default {
     makePayment,
     updateCustomer,
     deleteCustomer,
-    getCustomers
+    getCustomers,
+    getHistory
 }

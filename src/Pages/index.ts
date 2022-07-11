@@ -5,6 +5,8 @@ import { AdminDashboardUsers } from "./AdminDashboardUsers";
 import {Payment} from "./Payment";
 import { CashSalesPage } from "./PosCashSalesPage";
 import { CreditSalesPage } from "./PosCreditSalesPage";
+import {PaymentHistory} from './PaymentHistory';
+import {PurchaseHistory} from './PurchaseHistory';
 
 export {
     AdminDashboardUsers,
@@ -13,5 +15,7 @@ export {
     CreditSalesPage,
     CashSalesPage,
     AdminDashboardCustomers,
-    Payment
+    Payment,
+    PaymentHistory,
+    PurchaseHistory
 }

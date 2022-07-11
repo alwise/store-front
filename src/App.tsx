@@ -9,7 +9,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
-import { AdminDashboard, LandingPage, POSLayout } from "./Layouts";
+import { AdminDashboard, AdminDashboardTransactionDetails, LandingPage, POSLayout } from "./Layouts";
 import { AdminDashboardCustomers, AdminDashboardSock, AdminDashboardSummary, AdminDashboardUsers, CashSalesPage, CreditSalesPage } from "./Pages";
 import {  AuthLogin } from "./Pages/Authentication";
 import { Routes as paths } from './Utilities/PageRoutes';
@@ -29,8 +29,9 @@ export const App = () => (
                     <Route  path={paths.dashboard.pages.users.path} element={<AdminDashboardUsers/>} />
                     <Route  path={paths.dashboard.pages.summary.path} element={<AdminDashboardSummary/>} />
                     <Route  path={paths.dashboard.pages.customer.path} element={<AdminDashboardCustomers/>} />
+                    <Route  path={paths.dashboard.pages.transactionHistory.path} element={<AdminDashboardTransactionDetails/>} />
                 </Route>
-
+            
                 {/* POS */}
                 <Route path={paths.POS.path} element={<POSLayout/>}>
                       <Route path={paths.POS.creditSales.path} element={<CreditSalesPage/>} />

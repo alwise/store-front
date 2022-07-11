@@ -38,6 +38,41 @@ export const CreditSalesPage = () => {
   const [customersDataOptions,setCustomersDataOptions] = useState<any[]>([]);
   const [selectedCustomerDataOption,setSelectedCustomerDataOption] = useState<any[]>([]);
 
+
+  const handlePrint = async (data: SalesInt) => {
+    const itemsData = data?.items || [];
+    const itemsFormatted: any = [];
+    itemsData.forEach((val, index, arr) => {
+      itemsFormatted.push({
+        item: val?.productName,
+        qty: val?.quantity,
+        price: parseFloat(`${val?.price || "0.0"}`).toFixed(2),
+        amount: parseFloat(
+          `${
+            parseFloat(`${val?.price || "0.0"}`) *
+            parseInt(`${val.quantity || 0}`, 10)
+          }`
+        ).toFixed(2),
+      });
+    });
+    const _salesData = {
+      metaData: {
+        customerName:customers.filter((val)=>val.id === data?.customerId)?.at(0)?.name,
+        isCredit:true,
+        date:data?.createdAt,
+        amountPaid:parseFloat(`${data?.amountPaid || "0.0"}`).toFixed(2),
+        balance: parseFloat(`${data?.balance || "0.0"}`).toFixed(2),
+        total: parseFloat(`${data?.subTotal || "0.0"}`).toFixed(2),
+        subTotal: parseFloat(`${data?.subTotal || "0.0"}`).toFixed(2),
+        reference: data?.reference,
+        seller: currentUser().name,
+      },
+      products: itemsFormatted,
+    };
+     await PosServices.printSalesData(_salesData);
+
+  };
+
   const formatSelected = ()=>{
     const selectedListCopy = [...selectedProductDataOption];
     const productData:ProductInt[] = [];
@@ -143,18 +178,18 @@ export const CreditSalesPage = () => {
 
   const prepareDataForSubmit = () =>{
     const productsSelectedCopy:ProductInt[] = [...selectedProducts];
-    const newProductQuantityCopy:ProductInt[] = []
-    for (let prod of productsSelectedCopy) {
-      const _prod:any = products?.filter((val)=>(val.id === prod?.id))?.at(0);
-      newProductQuantityCopy.push(
-        {..._prod,quantity:(parseInt(`${_prod?.quantity || '0'}`,10) - parseInt(`${prod?.quantity || '0'}`,10) ) }
-      );
-    }
+    // const newProductQuantityCopy:ProductInt[] = []
+    // for (let prod of productsSelectedCopy) {
+    //   const _prod:any = products?.filter((val)=>(val.id === prod?.id))?.at(0);
+    //   newProductQuantityCopy.push(
+    //     {..._prod,quantity:(parseInt(`${_prod?.quantity || '0'}`,10) - parseInt(`${prod?.quantity || '0'}`,10) ) }
+    //   );
+    // }
     const customerId = selectedCustomerDataOption?.at(0)?.value;
     const balanceCopy:number = amountPaid - subTotal;
    const salesData = {
     items:productsSelectedCopy,
-    products:newProductQuantityCopy,
+    // products:newProductQuantityCopy,
     customerId,
     soldBy:currentUser()?.id,
     subTotal:parseFloat(`${subTotal || 0}`).toFixed(2),
@@ -220,7 +255,7 @@ export const CreditSalesPage = () => {
     setTimeout(()=>{
       if(result.status === true){
         resetData({isSubmit:true});
-        getSalesStats()
+        getSalesStats(true)
       }
       setShowAlert((_prev)=>(!_prev));
     },1500)
@@ -260,7 +295,6 @@ export const CreditSalesPage = () => {
      if(result.status === true){
        setProducts((_prev:any)=>(result?.data));
        convertProductsToSelectable(result?.data);
-     
      }
      fetchCustomers();
      
@@ -272,11 +306,11 @@ export const CreditSalesPage = () => {
      if(customerResult.status === true){
        setCustomers((_prev:any)=>(customerResult?.data));
        convertCustomersToSelectable(customerResult?.data);
-
+       
      }
   }
 
-  const getSalesStats = async ()=>{
+  const getSalesStats = async (isPrintable?:boolean)=>{
     const date = moment().format('YYYY-MM-DD');
     const result  = await PosServices.getPosStats({ soldBy:currentUser()?.id,date });
     if(result.status === true){
@@ -286,7 +320,12 @@ export const CreditSalesPage = () => {
     const salesHist  = await PosServices.getPosData({ soldBy:currentUser()?.id,date });
 
     if(salesHist?.status === true){
-      setSalesHistory((_prev)=>(salesHist?.data))
+      setSalesHistory((_prev)=>(salesHist?.data));
+      if(isPrintable === true){
+        if(salesHist?.data?.length > 0){
+          handlePrint(salesHist?.data[salesHist?.data?.length - 1]);
+        }
+      }
     }
 
   }
@@ -435,7 +474,7 @@ export const CreditSalesPage = () => {
                                     <Td> {sale?.reference}</Td>
                                     <Td>&#162;{parseFloat(`${sale?.subTotal || 0.0}`).toFixed(2)}</Td>
                                     <Td>
-                                        <IconButton icon={<FaPrint />} aria-label={'print'} />
+                                        <IconButton onClick={()=>handlePrint(sale)} icon={<FaPrint />} aria-label={'print'} />
                                     </Td>
                                 </Tr>
                                 )

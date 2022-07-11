@@ -1,11 +1,14 @@
-import React,{useState,useEffect} from 'react'
-import { Button, ButtonGroup, Container, HStack, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr, useDisclosure, VStack, Wrap, WrapItem } from '@chakra-ui/react';
-import { FaEdit, FaMoneyBill, FaPlus, FaRecycle } from 'react-icons/fa';
+import {useState,useEffect} from 'react'
+import { Button, ButtonGroup, HStack, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr, useDisclosure, VStack } from '@chakra-ui/react';
+import { FaEdit, FaEye, FaMoneyBill, FaPlus, FaRecycle } from 'react-icons/fa';
 import { CustomAlertDialog } from '../Components';
 import { AuthServices, CustomerService } from '../Services';
 import { CustomerInt, MultiSelectOptionInt } from '../Interfaces';
 import { CustomerModalForCreateAndEdit } from '../Components/CustomerModal';
 import { Payment } from './';
+import moment  from 'moment';
+import { useNavigate } from 'react-router-dom';
+import { Routes } from '../Utilities';
 
 
 export const AdminDashboardCustomers = () => {
@@ -15,6 +18,7 @@ export const AdminDashboardCustomers = () => {
     const paymentAlertProps = useDisclosure();
     const editAlertProps = useDisclosure();
     const deleteAlertProps = useDisclosure();
+    const navigate = useNavigate();
 
     const fetchCustomers = async () =>{
         const result = await CustomerService.getCustomers({});
@@ -76,7 +80,7 @@ export const AdminDashboardCustomers = () => {
                             <Th>Name</Th>
                             <Th isNumeric>PhoneNumber</Th>
                             <Th isNumeric>GH&#162;</Th>
-                            {/* <Th>Last Updated</Th> */}
+                            <Th>Last paid</Th>
                             <Th >Action</Th>
                         </Tr>
                         </Thead>
@@ -88,9 +92,15 @@ export const AdminDashboardCustomers = () => {
                                 <Td>{user?.name}</Td>
                                 <Td isNumeric >{user?.phoneNumber}</Td>
                                 <Td isNumeric >{parseFloat(`${user?.balance || 0.0}`).toFixed(2)}</Td>
+                                <Td>{moment(user?.updatedAt).format("YYYY-MM-DD")}</Td>
                                 {/* <Td >{user?.updatedAt}</Td> */}
                                 <Td> 
                                     <ButtonGroup>
+                                         <Button size={"xs"} colorScheme={"green"}  leftIcon={<FaEye/>} 
+                                         onClick={()=>{
+                                            navigate(Routes.dashboard.pages.transactionHistory.path,{ state:{title:Routes.dashboard.pages.transactionHistory.title,customer:user} })
+                                         }}
+                                         >View</Button>
                                          <Button size={"xs"} colorScheme={"green"}  leftIcon={<FaMoneyBill/>} 
                                          onClick={()=>{
                                             setCustomer((_prev:any)=>(user));
@@ -110,7 +120,7 @@ export const AdminDashboardCustomers = () => {
                                  </Td>
                                      </Tr>)
                             }
-                      
+                
                         </Tbody>
                         <Tfoot>
                         <Tr>
@@ -119,6 +129,7 @@ export const AdminDashboardCustomers = () => {
                             <Th isNumeric>Phone Number</Th>
                             {/* <Th>  </Th> */}
                             <Th isNumeric>GH&#162;</Th>
+                            <Th>Last paid</Th>
                             <Th >Action</Th>
                             
                         </Tr>
