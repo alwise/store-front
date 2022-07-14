@@ -1,5 +1,6 @@
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
+
 import {
   ChakraProvider,
   theme,
@@ -13,6 +14,7 @@ import { AdminDashboard, AdminDashboardTransactionDetails, LandingPage, POSLayou
 import { AdminDashboardCustomers, AdminDashboardSock, AdminDashboardSummary, AdminDashboardUsers, CashSalesPage, CreditSalesPage } from "./Pages";
 import {  AuthLogin } from "./Pages/Authentication";
 import { Routes as paths } from './Utilities/PageRoutes';
+
 
 export const App = () => (
   <ChakraProvider theme={theme}>
