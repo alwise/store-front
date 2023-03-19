@@ -1,21 +1,19 @@
-import { CustomerInt } from "./CustomerInterface"
-import { MultiSelectOptionInt } from "./MultiSelectOptionInterface"
-import { ProductInt } from "./ProductInterface"
-import { SalesInt,StatsInt } from "./SalesInterface"
-import { UserInt, UserRoles } from "./UserInterface"
-import {ApiResponseInt} from './ApiResponse'
+export * from "./CustomerInterface"
+export * from "./MultiSelectOptionInterface"
+export * from "./ProductInterface"
+export * from "./SalesInterface"
+export * from "./UserInterface"
+export * from './ApiResponse'
 
- export type {
-    UserRoles,
-    ProductInt,
-    SalesInt,
-    StatsInt,
-    // CashSalesInt,
-    // CreditSalesInt,
-    MultiSelectOptionInt,
-    CustomerInt,
-    UserInt,
-    ApiResponseInt
-}
+//  export type {
+//     UserRoles,
+//     ProductInt,
+//     SalesInt,
+//     StatsInt,
+//     MultiSelectOptionInt,
+//     CustomerInt,
+//     UserInt,
+//     ApiResponseInt
+// }
 
 

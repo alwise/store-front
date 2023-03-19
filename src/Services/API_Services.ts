@@ -1,12 +1,12 @@
 import axios from "axios";
 import { ApiResponseInt } from "../Interfaces";
 import { currentUser } from "./LocalStore";
-import env from "react-dotenv";
+// import env from "react-dotenv";
 let _apiHandler = axios.create();
 
 const _initializeAxios = () => {
   _apiHandler = axios.create({
-    baseURL: env.API_URL,
+    baseURL: 'http://localhost:3200/v1',
     headers: {
       Authorization: `${currentUser()?.token}`?.trim(),
       Accept: "application/json",
@@ -28,7 +28,7 @@ const localErrorHandler = (error: any) => {
   };
 };
 
-export const postRequest = async (endPoint: string, data:any) => {
+export const postRequest = async (endPoint: string, data: any) => {
   try {
     _initializeAxios();
     const result: Partial<ApiResponseInt> = await (
@@ -59,7 +59,7 @@ export const getRequest = async (
   try {
     _initializeAxios();
     const result: Partial<ApiResponseInt> = await (
-      await _apiHandler.get(endPoint, { params : params || {} })
+      await _apiHandler.get(endPoint, { params: params || {} })
     )?.data;
     return result;
   } catch (error) {
@@ -69,7 +69,7 @@ export const getRequest = async (
 
 export const deleteRequest = async (
   endPoint: string,
-  data:any
+  data: any
 ) => {
   try {
     _initializeAxios();
