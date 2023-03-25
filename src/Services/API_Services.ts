@@ -6,7 +6,7 @@ let _apiHandler = axios.create();
 
 const _initializeAxios = () => {
   _apiHandler = axios.create({
-    baseURL: 'http://localhost:3200/v1',
+    baseURL: 'http://192.168.100.20:3200/v1',
     headers: {
       Authorization: `${currentUser()?.token}`?.trim(),
       Accept: "application/json",
