@@ -364,7 +364,7 @@ export const CreditSalesPage = () => {
           <TableContainer minW={700}>
             <Table>
               <Thead>
-                <Tr >
+                <Tr>
                   <Th isNumeric>#</Th>
                   <Th>Product</Th>
                   <Th isNumeric>Quantity</Th>
@@ -393,8 +393,6 @@ export const CreditSalesPage = () => {
                     </Tr>
                   })
                 }
-
-
 
               </Tbody>
               {selectedProducts?.length !== 0 && <Tfoot>

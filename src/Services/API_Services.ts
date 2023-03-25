@@ -3,10 +3,10 @@ import { ApiResponseInt } from "../Interfaces";
 import { currentUser } from "./LocalStore";
 // import env from "react-dotenv";
 let _apiHandler = axios.create();
-
+///192.168.1.2
 const _initializeAxios = () => {
   _apiHandler = axios.create({
-    baseURL: 'http://192.168.1.2:3200/v1',
+    baseURL: 'http://localhost:3200/v1',
     headers: {
       Authorization: `${currentUser()?.token}`?.trim(),
       Accept: "application/json",

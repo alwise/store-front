@@ -12,10 +12,13 @@ export const useCreditPurchaseClientPrinter = () => {
     const handlePrint = (data: Partial<SalesType>) => {
         // add display: none to the print component
         setData(data);
+        console.log(data);
         setTimeout(() => {
             window.print();
             /// clear data
-            setData({})
+            setTimeout(() => {
+                setData({})
+            }, 1000);
         }, 1000);
     }
 
@@ -38,25 +41,25 @@ export const CreditSalesPrintComponent = ({ data }: {
             setCustomer(result?.data);
         }
     }
-
     async function findUserById(id: string) {
         const result = await AuthService?.getUserById(id);
         if (result.status == true) {
             setUser(result?.data);
         }
     }
+
     useEffect(() => {
         findUserById(data?.soldBy || '');
         findCustomerById(data?.customerId || '');
     }, [data]);
     return (
         <Container display={'none'} className="print-view" maxW="container.md" >
-            <Heading as="h6" size="xs" textAlign="center" >ED Yeboah Cold Store</Heading>
-            <Heading as="h6" size="xs" textAlign="center" >Asafo, Near Star Oil</Heading>
-            <Heading as="h6" size="xs" textAlign="center" >0209860893 / 0544832925</Heading>
-            <Heading as="h6" size="xs" textAlign="center" >Ref: {" "}{data?.reference} {moment(`${data?.date}`).format("YYYY-MM-DD HH:mm")}</Heading>
-            <Heading as="h6" size="xs" textAlign="center" >{user?.name}</Heading>
-            <Heading as="h6" size="xs" textAlign="center" >{customer?.name}</Heading>
+            <Heading as="h6" size="xs" textAlign="center" textTransform={"capitalize"} >ED Yeboah Cold Store</Heading>
+            <Heading as="h6" size="xs" textAlign="center" textTransform={"capitalize"} >Asafo, Near Star Oil</Heading>
+            <Heading as="h6" size="xs" textAlign="center" textTransform={"capitalize"} >0209860893 / 0544832925</Heading>
+            <Heading as="h6" size="xs" textAlign="center" textTransform={"capitalize"} >Ref: {" "}{data?.reference} {moment(`${data?.date}`).format("YYYY-MM-DD HH:mm")}</Heading>
+            <Heading as="h6" size="xs" textAlign="center" textTransform={"capitalize"} >Sold By: {user?.name}</Heading>
+            <Heading as="h6" size="xs" textAlign="center" textTransform={"capitalize"}  >Customer: {customer?.name}</Heading>
             <TableContainer minW="full">
                 <Table>
                     <Thead>
@@ -120,7 +123,9 @@ export const useClientPaymentPrinter = () => {
         setData(data);
         setTimeout(() => {
             window.print();
-            setData({})
+            setTimeout(() => {
+                setData({})
+            }, 1000);
         }, 2000);
     }
 
@@ -160,8 +165,8 @@ export const ClientPaymentPrintComponent = ({ data }: {
             <Heading as="h6" size="xs" textAlign="center" >Asafo, Near Star Oil</Heading>
             <Heading as="h6" size="xs" textAlign="center" >0209860893 / 0544832925</Heading>
             <Heading as="h6" size="xs" textAlign="center" >Ref: {" "}{data?.reference} {moment(`${data?.createdAt}`).format("YYYY-MM-DD HH:mm")}</Heading>
-            <Heading as="h6" size="xs" textAlign="center" >{user?.name}</Heading>
-            <Heading as="h6" size="xs" textAlign="center" >{customer?.name}</Heading>
+            <Heading as="h6" size="xs" textAlign="center" textTransform={"capitalize"} >Sold By: {user?.name}</Heading>
+            <Heading as="h6" size="xs" textAlign="center" textTransform={"capitalize"}  >Customer: {customer?.name}</Heading>
             <TableContainer minW="full">
                 <Table>
                     <Thead>
