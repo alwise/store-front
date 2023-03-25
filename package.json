@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "serve": "pm2 delete store-front || pm2 serve dist --spa --watch true --name store-front || pm2 save",
+    "preview": "vite preview --host --port 3400"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.2",
